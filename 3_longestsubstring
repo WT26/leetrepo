@@ -1,0 +1,21 @@
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+
+        i, j = 0, 0 #index and lenght:j
+        list = []
+        while len(s) != i:
+            char = s[i]
+            if char in list:
+                if len(list) > j:
+                    j = len(list)
+                list = list[list.index(char)+1:]
+                list.append(char)
+            else:
+                list.append(char)
+            i += 1
+        if len(list) > j:
+            j = len(list)
+        return j
+
+s = Solution
+print(s.lengthOfLongestSubstring(s, "bpfbhmipx"))
