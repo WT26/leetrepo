@@ -1,0 +1,64 @@
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        new_list = []
+        i_1 = 0
+        i_2 = 0
+        nomore_num1 = False
+        nomore_num2 = False
+        which_one = 0 #0 is same, 1 is i_1 and 2 is i_2
+
+        if len(nums1) == 0:
+            nomore_num1 = True
+        if len(nums2) == 0:
+            nomore_num2 = True
+        while True:
+            if nomore_num1 is False and nomore_num2 is False:
+                if nums1[i_1] > nums2[i_2]:
+                    new_list.append(nums2[i_2])
+                    which_one = 2
+                elif nums2[i_2] > nums1[i_1]:
+                    new_list.append(nums1[i_1])
+                    which_one = 1
+                else:
+                    new_list.append(nums1[i_1])
+                    new_list.append(nums2[i_2])
+                    which_one = 0
+
+            elif nomore_num1 is True and nomore_num2 is False:
+                new_list.append(nums2[i_2])
+                which_one = 2
+
+            elif nomore_num1 is False and nomore_num2 is True:
+                new_list.append(nums1[i_1])
+                which_one = 1
+            else:
+                break
+
+            # Tarkastetaan onko listassa jäljellä numeroita
+            if (len(nums1) == (i_1 + 1)) and (which_one == 1 or which_one == 0):
+                nomore_num1 = True
+            if len(nums2) == (i_2 + 1)and (which_one == 2 or which_one == 0):
+                nomore_num2 = True
+
+            if which_one == 0:
+                if not nomore_num1:
+                    i_1 += 1
+                if not nomore_num2:
+                    i_2 += 1
+            elif which_one == 1:
+                if not nomore_num1:
+                    i_1 += 1
+            else:
+                if not nomore_num2:
+                    i_2 += 1
+
+        return self.median(self, new_list)
+
+    def median(self, lst):
+        quotient, remainder = divmod(len(lst), 2)
+        if remainder:
+            return sorted(lst)[quotient]
+        return sum(sorted(lst)[quotient - 1:quotient + 1]) / 2.
+
+s = Solution
+print(s.findMedianSortedArrays(s, [100000, 2], [100001, 2]))
